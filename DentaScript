@@ -801,7 +801,7 @@ VisualsTabCategoryViewmodel:AddButton("Reset", function()
 	library.pointers.VisualsTabCategoryViewmodelOffsetRoll:Set(180)
 end)
 
-local VisualsTabCategoryThirdPerson = VisualsTab:AddCategory("Third Person", 1)
+local VisualsTabCategoryThirdPerson = VisualsTab:AddCategory("Third Person", 2)
 
 VisualsTabCategoryThirdPerson:AddToggle("Enabled", false, "VisualsTabCategoryThirdPersonEnabled", function(val)
 	if val == true then
@@ -989,6 +989,16 @@ MiscellaneousTabCategoryMain:AddButton("Inf HP", function() pcall(function()
 end) end)
 
 
+MiscellaneousTabCategoryMain:AddButton("Invisibility [dont defuse]", function() pcall(function()
+	local oldpos = LocalPlayer.Character.HumanoidRootPart.CFrame
+	LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(9999,9999,9999)
+	local NewRoot = LocalPlayer.Character.LowerTorso.Root:Clone()
+	LocalPlayer.Character.LowerTorso.Root:Destroy()
+	NewRoot.Parent = LocalPlayer.Character.LowerTorso
+	wait()
+	LocalPlayer.Character.HumanoidRootPart.CFrame = oldpos
+end) end)
+
 MiscellaneousTabCategoryMain:AddButton("Vote Kick Yourself", function()
 	game.ReplicatedStorage.Events.Vote:FireServer(game.Players.LocalPlayer.Name)
 end)
@@ -1049,6 +1059,55 @@ MiscellaneousTabCategoryMain:AddToggle("Inf Cash", false, "MiscellaneousTabCateg
 	end
 end)
 
+MiscellaneousTabCategoryMain:AddToggle("Inf Stamina", false, "MiscellaneousTabCategoryMainInfStamina", function(val)
+	if val == true then
+		game:GetService("RunService"):BindToRenderStep("Stamina", 100, function()
+			if cbClient.crouchcooldown ~= 0 then
+				cbClient.crouchcooldown = 0
+			end
+		end)
+	elseif val == false then
+		game:GetService("RunService"):UnbindFromRenderStep("Stamina")
+	end
+end)
+
+MiscellaneousTabCategoryMain:AddToggle("NNS Dont Talk", false, "MiscellaneousTabCategoryMainNNSDontTalk")
+
+MiscellaneousTabCategoryMain:AddToggle("No Chat Filter", false, "MiscellaneousTabCategoryMainNoChatFilter")
+
+MiscellaneousTabCategoryMain:AddToggle("No Fall Damage", false, "MiscellaneousTabCategoryMainNoFallDamage")
+
+MiscellaneousTabCategoryMain:AddToggle("No Fire Damage", false, "MiscellaneousTabCategoryMainNoFireDamage")
+
+MiscellaneousTabCategoryMain:AddToggle("Kill All", false, "MiscellaneousTabCategoryMainKillAll", function(val)
+	if val == true then
+		KillAllLoop = game:GetService("RunService").RenderStepped:Connect(function()
+			wait()
+			pcall(function()
+				for i,v in pairs(game.Players:GetChildren()) do
+					if v ~= LocalPlayer and IsAlive(v) and IsAlive(LocalPlayer) then
+						local Arguments = {
+							[1] = v.Character.Head,
+							[2] = v.Character.Head.Position,
+							[3] = "Banana",
+							[4] = 100,
+							[5] = LocalPlayer.Character.Gun,
+							[8] = 100,
+							[9] = false,
+							[10] = false,
+							[11] = Vector3.new(),
+							[12] = 100,
+							[13] = Vector3.new()
+						}
+						game.ReplicatedStorage.Events.HitPart:FireServer(unpack(Arguments))
+					end
+				end
+			end)
+		end)
+	elseif val == false and KillAllLoop then
+		KillAllLoop:Disconnect()
+	end
+end)
 
 MiscellaneousTabCategoryMain:AddTextBox("Hit Sound", "", "MiscellaneousTabCategoryMainHitSound")
 
