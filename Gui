@@ -124,19 +124,19 @@ local library = {
 	windows = {},
     pointers = {},
     settings = {
-        guiname = "                                                       Denta Recode",
-		title = "                                                       Denta Recode",
-        footer = " Best cheat on Counter Blox : Reimagined v2",
+        guiname = "                                                       Денточка рекодик<3",
+		title = "                                                       Денточка рекодик<3",
+        footer = "   Best cheat on Kay's CSGO Modded",
         modal = true,
         font = Enum.Font.SourceSans,
-        textsize = 16,
+        textsize = 17,
         textstroke = true
     },
     theme = {
         buttons = Color3.fromRGB(20, 200, 20), -- toggle, sliders colors
         text = Color3.fromRGB(155, 155, 155),
         textboxtext = Color3.fromRGB(145, 145, 145),
-        main = Color3.fromRGB(30, 30, 30),
+        main = Color3.fromRGB(70, 70, 70),
         outline = Color3.fromRGB(60, 60, 60),
         tabholder = Color3.fromRGB(35, 35, 35),
         tabbutton = Color3.fromRGB(30, 30, 30),
@@ -1585,7 +1585,7 @@ function library:CreateWindow(csize, cpos)
                 function bind:Set(key)
                     if not key then
 						bind.value = nil
-						bind.label.Text = tostring("[ ".."None".." ]")
+						bind.label.Text = tostring("[ ".."Нету".." ]")
 						bind.label.Size = UDim2.new(0,-bind.label.TextBounds.X-8,1,-4)
                     else
 						if key.Name:sub(1,11) == "MouseButton" then
@@ -1907,8 +1907,8 @@ end
 
 local function GetConfigs()
 	cfgs = {}
-	for i,v in pairs(listdir("hexhub")) do
-		if v:sub(-10) == ".hexhubcfg" then
+	for i,v in pairs(listdir("dentarecode")) do
+		if v:sub(-10) == ".dentacfg" then
 			table.insert(cfgs, string.split(v, ".")[1]:sub(8))
 		end
 	end
